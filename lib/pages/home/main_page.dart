@@ -36,13 +36,13 @@ class _MainPageState extends State<MainPage> {
           index: currIndex,
           height: 70.0,
           items: <Widget>[
-            Icon(Icons.my_library_books_sharp, size: 30),
-            Icon(Icons.home, size: 30),
-            Icon(Icons.person,size: 30),
+            Icon(Iconsax.activity, size: 30),
+            Icon(Iconsax.home, size: 30),
+            Icon(Iconsax.personalcard,size: 30),
           ],
           color: Colors.white,
-          buttonBackgroundColor: Colors.white,
-          backgroundColor: Colors.blueAccent,
+          buttonBackgroundColor: primaryColor,
+          backgroundColor: backgroundColor1,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 300),
           onTap: (value) {

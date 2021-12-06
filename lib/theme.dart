@@ -14,24 +14,24 @@ Color primaryTextColor = Color(0xff090909);
 Color secondaryTextColor = Color(0xff898989);
 Color thirdTextColor = Color(0xffFFFFFF);
 
-TextStyle primaryTextStyle = GoogleFonts.poppins(
+TextStyle primaryTextStyle = GoogleFonts.roboto(
   color: primaryTextColor,
 );
 
-TextStyle secondaryTextStyle = GoogleFonts.poppins(
+TextStyle secondaryTextStyle = GoogleFonts.roboto(
   color: secondaryTextColor,
 );
 
-TextStyle whiteTextStyle = GoogleFonts.poppins(
+TextStyle whiteTextStyle = GoogleFonts.roboto(
   color: thirdTextColor,
 );
 
-TextStyle blueTextStyle = GoogleFonts.poppins(
+TextStyle blueTextStyle = GoogleFonts.roboto(
   color: primaryColor,
 );
 
 FontWeight light = FontWeight.w300;
-FontWeight regular = FontWeight.w400;
+FontWeight regular = FontWeight.normal;
 FontWeight medium = FontWeight.w500;
 FontWeight semibold = FontWeight.w600;
-FontWeight bold = FontWeight.w800;
+FontWeight bold = FontWeight.bold;
