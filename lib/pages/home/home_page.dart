@@ -74,16 +74,21 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      width: 54,
-                      height: 54,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,  
-                        color: backgroundColor1,
-                      ),
-                      child: Icon(
-                        Icons.navigate_next,
-                        color: primaryColor,
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/addcampaign');
+                      },
+                      child: Container(
+                        width: 54,
+                        height: 54,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,  
+                          color: backgroundColor1,
+                        ),
+                        child: Icon(
+                          Icons.navigate_next,
+                          color: primaryColor,
+                        ),
                       ),
                     )
                   ],

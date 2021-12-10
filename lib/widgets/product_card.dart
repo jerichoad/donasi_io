@@ -25,11 +25,17 @@ class ProductCard extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Image.network(
-            'https://asset.kompas.com/crops/Nq9eLCFN2N7Myk34B-bNABmWsPA=/0x0:0x0/750x500/data/photo/2021/12/07/61aec5d337a68.jpg',
-            width: 215,
-            height: 150,
-            fit: BoxFit.cover,
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            child: Image.network(
+              'https://asset.kompas.com/crops/Nq9eLCFN2N7Myk34B-bNABmWsPA=/0x0:0x0/750x500/data/photo/2021/12/07/61aec5d337a68.jpg',
+              width: 215,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
           ),
           Container(
             margin: EdgeInsets.symmetric(

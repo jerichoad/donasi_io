@@ -1,3 +1,4 @@
+import 'package:donasi_io/pages/addcampaign.dart';
 import 'package:donasi_io/pages/detailproduct_page.dart';
 import 'package:donasi_io/pages/home/main_page.dart';
 import 'package:donasi_io/pages/sign_in_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/sign-up': (context) => SignUpPage(),
         '/home': (context) => MainPage(),
         '/detailproduct': (context) => DetailProductPage(),
+        '/addcampaign': (context) => AddCampaign(),
       },
     );
   }
