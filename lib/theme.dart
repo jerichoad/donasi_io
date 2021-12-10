@@ -30,6 +30,10 @@ TextStyle blueTextStyle = GoogleFonts.roboto(
   color: primaryColor,
 );
 
+TextStyle alertTextStyle = GoogleFonts.roboto(
+  color: alertColor,
+);
+
 FontWeight light = FontWeight.w300;
 FontWeight regular = FontWeight.normal;
 FontWeight medium = FontWeight.w500;

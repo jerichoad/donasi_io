@@ -10,10 +10,9 @@ class SignInPage extends StatelessWidget {
 
     Widget header(){
       return Container(
-        margin: EdgeInsets.only(top: 30),
-        
+        margin: EdgeInsets.only(top: 50),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "Login",
@@ -22,7 +21,7 @@ class SignInPage extends StatelessWidget {
                 fontWeight: bold,
               ),
             ),
-            SizedBox(height: 2,),
+            SizedBox(height: 10,),
             Text(
               "Sign In to Continue",
               style: secondaryTextStyle.copyWith(

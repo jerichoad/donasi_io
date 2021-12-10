@@ -36,15 +36,15 @@ class _MainPageState extends State<MainPage> {
           index: currIndex,
           height: 70.0,
           items: <Widget>[
-            Icon(Iconsax.activity, size: 30),
-            Icon(Iconsax.home, size: 30),
-            Icon(Iconsax.personalcard,size: 30),
+            Icon(Iconsax.activity, size: 30, color: currIndex == 0 ? backgroundColor1 : primaryTextColor,),
+            Icon(Iconsax.home, size: 30, color: currIndex == 1 ? backgroundColor1 : primaryTextColor,),
+            Icon(Iconsax.personalcard,size: 30, color: currIndex == 2 ? backgroundColor1 : primaryTextColor,),
           ],
-          color: Colors.white,
+          color: backgroundColor1,
           buttonBackgroundColor: primaryColor,
           backgroundColor: backgroundColor1,
           animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 300),
+          animationDuration: Duration(milliseconds: 250),
           onTap: (value) {
             print(value);
             setState(() {

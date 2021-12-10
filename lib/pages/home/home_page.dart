@@ -1,5 +1,6 @@
 import 'package:donasi_io/theme.dart';
 import 'package:donasi_io/widgets/product_card.dart';
+import 'package:donasi_io/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -66,7 +67,7 @@ class HomePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Create Your Fundraising",
+                          Text("Create Your Campaign",
                           style: whiteTextStyle.copyWith(
                             fontSize: 24, fontWeight: semibold,
                           ),),
@@ -134,12 +135,47 @@ class HomePage extends StatelessWidget {
       );
     }
 
+    Widget listDonationTitle(){
+      return Container(
+        margin: EdgeInsets.only(
+          top: defaultMargin,
+          left: defaultMargin,
+          right: defaultMargin,
+        ),
+        child: Text(
+          'Explore',
+          style: primaryTextStyle.copyWith(
+            fontSize: 22,
+            fontWeight: semibold,
+          ),
+        )
+      );
+    }
+
+    Widget listDonation(){
+      return Container(
+        margin: EdgeInsets.only(
+          top: 14,
+        ),
+        child: Column(
+          children: [
+            ProductTile(),
+            ProductTile(),
+            ProductTile(),
+            ProductTile(),
+          ],
+        ),
+      );
+    }
+    
     return ListView(
       children: [
         header(),
         cardHeader(),
         urgentDonationTitle(),
         urgentDonation(),
+        listDonationTitle(),
+        listDonation(),
       ],
     );
   }

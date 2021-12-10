@@ -7,77 +7,82 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 215,
-      height: 300,
-      margin: EdgeInsets.only(
-        right: defaultMargin,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: backgroundColor2,
-      ),
-      child: 
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        Image.network(
-          'https://cdn0-production-images-kly.akamaized.net/XEkdRQ9wW5vahXgtFzzfvBNGNic=/640x360/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/3654077/original/073565300_1638777502-KESIAPAN_SEMERU.jpg',
-          width: 215,
-          height: 150,
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, '/detailproduct');
+      },
+      child: Container(
+        width: 215,
+        height: 300,
+        margin: EdgeInsets.only(
+          right: defaultMargin,
         ),
-        Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: backgroundColor2,
+        ),
+        child: 
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Image.network(
+            'https://asset.kompas.com/crops/Nq9eLCFN2N7Myk34B-bNABmWsPA=/0x0:0x0/750x500/data/photo/2021/12/07/61aec5d337a68.jpg',
+            width: 215,
+            height: 150,
+            fit: BoxFit.cover,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Bencana',
-                style: secondaryTextStyle.copyWith(
-                  fontSize: 12,
+          Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Text(
-                'DONASI BENCANA SEMERU',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: semibold,
+                Text(
+                  'Bencana',
+                  style: secondaryTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              LinearPercentIndicator(
-                width: 175,
-                lineHeight: 10.0,
-                percent: 1 - (0.2),
-                backgroundColor: secondaryTextColor,
-                progressColor: primaryColor,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Rp. 1.000.000',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 14,
+                SizedBox(
+                  height: 12,
                 ),
-              )
-            ],
-          ),
-        )
-        
-      ],),
+                Text(
+                  'DONASI BENCANA SEMERU',
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: semibold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                LinearPercentIndicator(
+                  width: 175,
+                  lineHeight: 10.0,
+                  percent: 1 - (0.2),
+                  backgroundColor: secondaryTextColor,
+                  progressColor: primaryColor,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'Rp. 1.000.000',
+                  style: blueTextStyle.copyWith(
+                    fontSize: 14,
+                  ),
+                )
+              ],
+            ),
+          )
+          
+        ],),
+      ),
     );
   }
 }

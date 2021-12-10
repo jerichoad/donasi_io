@@ -10,10 +10,10 @@ class SignUpPage extends StatelessWidget {
 
     Widget header(){
       return Container(
-        margin: EdgeInsets.only(top: 30),
+        margin: EdgeInsets.only(top: 50),
         
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               "Register",
