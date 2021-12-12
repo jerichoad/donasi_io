@@ -3,7 +3,9 @@ import 'package:donasi_io/widgets/product_card.dart';
 import 'package:donasi_io/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 
+
 class HomePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     
@@ -130,8 +132,6 @@ class HomePage extends StatelessWidget {
               Row(
                 children: [
                   ProductCard(),
-                  ProductCard(),
-                  ProductCard(),
                 ],
               )
             ],
@@ -162,14 +162,7 @@ class HomePage extends StatelessWidget {
         margin: EdgeInsets.only(
           top: 14,
         ),
-        child: Column(
-          children: [
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-          ],
-        ),
+        child: ProductTile(),
       );
     }
     

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:donasi_io/theme.dart';
 
-class DetailProductPage extends StatelessWidget {
+class DetailProductPage extends StatefulWidget {
+
+  final int idcampaign;
+  DetailProductPage({Key? key, required this.idcampaign}) : super(key: key);
+  @override
+  _DetailProductPageState createState() => _DetailProductPageState();
+}
+
+class _DetailProductPageState extends State<DetailProductPage> {
   @override
   Widget build(BuildContext context) {
 
@@ -11,7 +19,7 @@ class DetailProductPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 350,
+              height: 300,
               padding: EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 16,
@@ -71,7 +79,7 @@ class DetailProductPage extends StatelessWidget {
       return Container(
         width: double.infinity,
         margin: EdgeInsets.only(
-          top: 17,
+          top: 5,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.vertical(
@@ -177,6 +185,76 @@ class DetailProductPage extends StatelessWidget {
                 ],
               ),
             ),
+
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Donatour',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: bold
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 20,
+                    ),
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      left: 12,
+                      bottom: 14,
+                      right: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: backgroundColor2,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'NAME',
+                                style: primaryTextStyle.copyWith(
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Semoga membantu',
+                                style: blueTextStyle,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Rp. 500,000',
+                                style: blueTextStyle,
+                              )
+                            ],
+                          ),
+                        ),
+                        
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
@@ -194,7 +272,71 @@ class DetailProductPage extends StatelessWidget {
               child: Container(
                 height: 54,
                 child: TextButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          padding: EdgeInsets.all(16),
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                            color: Colors.white,
+                          ),
+                          height: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text('Jumlah Donasi'),
+                                SizedBox(height: 20,),
+                                TextFormField(
+                                  style: primaryTextStyle,
+                                  decoration: InputDecoration(
+                                    hintText: 'Masukkan Angka',
+                                    hintStyle: primaryTextStyle,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                      )
+                                    )
+                                  ),
+                                ),
+
+                                TextFormField(
+                                  style: primaryTextStyle,
+                                  decoration: InputDecoration(
+                                    hintText: 'Komentar',
+                                    hintStyle: primaryTextStyle,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                      )
+                                    )
+                                  ),
+                                ),
+
+
+                                SizedBox(height: 20,),
+                                ElevatedButton(
+                                  child: const Text('Donate'),
+                                  onPressed: () {
+                                    //donasi
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -220,10 +362,10 @@ class DetailProductPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          header(),
           Expanded(
             child: ListView(
               children: [
-                header(),
                 konten(),
               ],
             ),

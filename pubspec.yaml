@@ -32,6 +32,9 @@ dependencies:
   iconsax: ^0.0.8
   curved_navigation_bar: ^1.0.1
   percent_indicator: "^3.3.0-nullsafety.1"
+  image_picker: ^0.7.5+3
+  http: 0.13.1
+
 
 dev_dependencies:
   flutter_test:

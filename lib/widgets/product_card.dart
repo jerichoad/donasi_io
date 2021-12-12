@@ -1,17 +1,52 @@
+import 'dart:convert';
+
+import 'package:donasi_io/class/campaign.dart';
+import 'package:donasi_io/pages/detailproduct_page.dart';
 import 'package:donasi_io/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:http/http.dart' as http;
 
 class ProductCard extends StatelessWidget {
   const ProductCard({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.pushNamed(context, '/detailproduct');
-      },
-      child: Container(
+  Future<String> fetchData() async {
+    final response = await http
+      .get(Uri.parse("http://ubaya.fun/flutter/160418108/campaign/campaignurgent.php"));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+    throw Exception('Failed to read API');
+    }
+  }
+
+  bacaData(){
+    CPs.clear();
+    Future<String> data = fetchData();
+    data.then((value){
+      Map json = jsonDecode(value);
+      for (var cam in json['data']){
+        Campaign cm = Campaign.fromJson(cam);
+        CPs.add(cm);
+      }
+      
+    });
+  }
+
+  Widget DaftarCampaignUrgent(data){
+    List<Campaign> CPs2 = [];
+    Map json = jsonDecode(data);
+    for (var cam in json['data']){
+      Campaign cmp = Campaign.fromJson(cam);
+      CPs2.add(cmp);
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: CPs2.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext ctxt, int index){
+        return new Container(
         width: 215,
         height: 300,
         margin: EdgeInsets.only(
@@ -31,7 +66,7 @@ class ProductCard extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
             child: Image.network(
-              'https://asset.kompas.com/crops/Nq9eLCFN2N7Myk34B-bNABmWsPA=/0x0:0x0/750x500/data/photo/2021/12/07/61aec5d337a68.jpg',
+              'http://ubaya.fun/flutter/160418108/campaign/image/' + CPs2[index].idcampaign.toString() + ".jpg",
               width: 215,
               height: 150,
               fit: BoxFit.cover,
@@ -57,7 +92,7 @@ class ProductCard extends StatelessWidget {
                   height: 12,
                 ),
                 Text(
-                  'DONASI BENCANA SEMERU',
+                  CPs2[index].namacampaign,
                   style: primaryTextStyle.copyWith(
                     fontSize: 18,
                     fontWeight: semibold,
@@ -78,17 +113,45 @@ class ProductCard extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  'Rp. 1.000.000',
+                  CPs2[index].target.toString(),
                   style: blueTextStyle.copyWith(
                     fontSize: 14,
                   ),
-                )
+                ),
               ],
             ),
           )
           
         ],),
-      ),
+      );
+      }
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, 
+          MaterialPageRoute(builder: (context) => DetailProductPage(idcampaign: 2))
+        );
+      },
+      child: Container(
+          height: 310,
+          child: FutureBuilder(
+            future: fetchData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return DaftarCampaignUrgent(snapshot.data);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator()
+                );
+              }
+            },
+            
+          )
+        ),
     );
   }
 }

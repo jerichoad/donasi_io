@@ -47,11 +47,17 @@ class HistoryCard extends StatelessWidget {
                 Text(
                   'Rp. 500,000',
                   style: blueTextStyle,
-                )
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                      'DELETE',
+                      style: alertTextStyle,
+                    ),
               ],
             ),
           ),
-          
         ],
       ),
     );

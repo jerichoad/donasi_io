@@ -93,6 +93,42 @@ class ProfilePage extends StatelessWidget {
       );
     }
 
+    Widget footer(){
+      //NOTE: BUTTONS
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(
+          top: 50,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                height: 54,
+                child: TextButton(
+                  onPressed: (){},
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: primaryColor
+                  ),
+                  child: Text(
+                    "Update Profile",
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semibold,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     Widget content(){
       return Container(
         padding: EdgeInsets.symmetric(
@@ -119,10 +155,13 @@ class ProfilePage extends StatelessWidget {
             ),
             nameInput(),
             emailInput(),
+            footer(),
           ],
         ),
       );
     }
+
+    
 
     
 

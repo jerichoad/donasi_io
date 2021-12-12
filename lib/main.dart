@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         '/sign-in': (context) => SignInPage(),
         '/sign-up': (context) => SignUpPage(),
         '/home': (context) => MainPage(),
-        '/detailproduct': (context) => DetailProductPage(),
+        //'/detailproduct': (context) => DetailProductPage(key: key, idcampaign: 0,),
         '/addcampaign': (context) => AddCampaign(),
       },
     );
