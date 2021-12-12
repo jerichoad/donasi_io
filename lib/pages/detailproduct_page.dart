@@ -1,19 +1,57 @@
+import 'dart:convert';
+
+import 'package:donasi_io/class/campaign.dart';
 import 'package:flutter/material.dart';
 import 'package:donasi_io/theme.dart';
+import 'package:http/http.dart' as http;
 
 class DetailProductPage extends StatefulWidget {
 
   final int idcampaign;
+
   DetailProductPage({Key? key, required this.idcampaign}) : super(key: key);
   @override
   _DetailProductPageState createState() => _DetailProductPageState();
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  @override
-  Widget build(BuildContext context) {
+  late Campaign cm;
 
-    Widget header(){
+  @override
+  void initState() {
+    super.initState();
+    bacaData();
+    print("HERE YOU ARE");
+    print(widget.idcampaign.toString());
+  }
+
+  Future<String> fetchData() async {
+    final response = await http.post(
+        Uri.parse("http://ubaya.fun/flutter/160418108/campaign/detailcampaign.php"),
+        body: {'idcampaign': widget.idcampaign.toString()});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  bacaData() {
+    fetchData().then((value) {
+      Map json = jsonDecode(value);
+      cm = Campaign.fromJson(json['data']);
+      setState(() {});
+    });
+  }
+
+  Future onGoBack(dynamic value) async {
+    print("masuk goback");
+    setState(() {
+    bacaData();
+    });
+  }
+
+  Widget header(){
       return Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +64,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
               ),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage('https://asset.kompas.com/crops/Nq9eLCFN2N7Myk34B-bNABmWsPA=/0x0:0x0/750x500/data/photo/2021/12/07/61aec5d337a68.jpg'),
+                  image: NetworkImage(
+                    'http://ubaya.fun/flutter/160418108/campaign/image/' + widget.idcampaign.toString() + ".jpg",
+                    ),
                   fit: BoxFit.cover,
                 ),
                 color: primaryColor,
@@ -75,8 +115,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
       );
     }
 
-    Widget konten(){
-      return Container(
+    Widget tampilData(){
+      if(cm!=null){
+        return Container(
         width: double.infinity,
         margin: EdgeInsets.only(
           top: 5,
@@ -103,7 +144,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'DONASI PENANGANAN SEMERU',
+                          cm.namacampaign,
                           style: primaryTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
@@ -112,11 +153,18 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          'Category',
-                          style: secondaryTextStyle.copyWith(
-                            fontSize: 12,
-                          ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cm.categories?.length,
+                          itemBuilder: (BuildContext ctxt, int index){
+                            return new Text(
+                              cm.categories?[index]['namacat'],
+                              style: secondaryTextStyle.copyWith(
+                                fontSize: 12,
+                              ),
+                            );
+                          },
+                          
                         )
                       ],
                     ),
@@ -141,11 +189,11 @@ class _DetailProductPageState extends State<DetailProductPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Donasi Terkumpul',
+                    'Target Donasi',
                     style: whiteTextStyle,
                   ),
                   Text(
-                    'Rp. 1,000,000',
+                    cm.target.toString(),
                     style: whiteTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semibold
@@ -176,7 +224,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     height: 12,
                   ),
                   Text(
-                    'Kabar duka kembali menyelimuti Jawa Timur. Pada Sabtu (04/12/2021) sekitar pukul 15.30 WIB, Gunung Semeru erupsi dan menyebabkan wilayah sekitar lereng gunung menjadi gelap gulita.',
+                    cm.desc,
                     style: secondaryTextStyle.copyWith(
                       fontWeight: light,
                     ),
@@ -222,30 +270,36 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'NAME',
-                                style: primaryTextStyle.copyWith(
-                                  fontWeight: bold,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Semoga membantu',
-                                style: blueTextStyle,
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                'Rp. 500,000',
-                                style: blueTextStyle,
-                              )
-                            ],
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: cm.donasis?.length,
+                            itemBuilder: (BuildContext ctxt, int index){
+                              return new Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cm.donasis?[index]['nama'],
+                                    style: primaryTextStyle.copyWith(
+                                      fontWeight: bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    cm.donasis?[index]['komentar'],
+                                    style: blueTextStyle,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    cm.donasis![index]['nominal'].toString(),
+                                    style: blueTextStyle,
+                                  )
+                                ],
+                              );
+                            }
                           ),
                         ),
                         
@@ -258,6 +312,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
           ],
         ),
       );
+      } else {
+        return CircularProgressIndicator();
+      }
     }
 
     Widget footer(){
@@ -358,6 +415,9 @@ class _DetailProductPageState extends State<DetailProductPage> {
       );
     }
 
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,8 +425,8 @@ class _DetailProductPageState extends State<DetailProductPage> {
           header(),
           Expanded(
             child: ListView(
-              children: [
-                konten(),
+              children: <Widget>[
+                tampilData(),
               ],
             ),
           ),

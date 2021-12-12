@@ -8,7 +8,9 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:http/http.dart' as http;
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  ProductCard({Key? key}) : super(key: key);
+  
+  int indexContext = 1;
 
   Future<String> fetchData() async {
     final response = await http
@@ -46,84 +48,90 @@ class ProductCard extends StatelessWidget {
       itemCount: CPs2.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext ctxt, int index){
-        return new Container(
-        width: 215,
-        height: 300,
-        margin: EdgeInsets.only(
-          right: defaultMargin,
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: backgroundColor2,
-        ),
-        child: 
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-            child: Image.network(
-              'http://ubaya.fun/flutter/160418108/campaign/image/' + CPs2[index].idcampaign.toString() + ".jpg",
-              width: 215,
-              height: 150,
-              fit: BoxFit.cover,
-            ),
+        return GestureDetector(
+          onTap: (){
+            indexContext = index;
+            print(indexContext.toString());
+          },
+          child: new Container(
+          width: 215,
+          height: 300,
+          margin: EdgeInsets.only(
+            right: defaultMargin,
           ),
-          Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: 20,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: backgroundColor2,
+          ),
+          child: 
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Image.network(
+                'http://ubaya.fun/flutter/160418108/campaign/image/' + CPs2[index].idcampaign.toString() + ".jpg",
+                width: 215,
+                height: 150,
+                fit: BoxFit.cover,
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Bencana',
-                  style: secondaryTextStyle.copyWith(
-                    fontSize: 12,
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
                   ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
-                  CPs2[index].namacampaign,
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: semibold,
+                  Text(
+                    'Bencana',
+                    style: secondaryTextStyle.copyWith(
+                      fontSize: 12,
+                    ),
                   ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                LinearPercentIndicator(
-                  width: 175,
-                  lineHeight: 10.0,
-                  percent: 1 - (0.2),
-                  backgroundColor: secondaryTextColor,
-                  progressColor: primaryColor,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  CPs2[index].target.toString(),
-                  style: blueTextStyle.copyWith(
-                    fontSize: 14,
+                  SizedBox(
+                    height: 12,
                   ),
-                ),
-              ],
-            ),
-          )
-          
-        ],),
-      );
+                  Text(
+                    CPs2[index].namacampaign,
+                    style: primaryTextStyle.copyWith(
+                      fontSize: 18,
+                      fontWeight: semibold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  LinearPercentIndicator(
+                    width: 175,
+                    lineHeight: 10.0,
+                    percent: 1 - (0.2),
+                    backgroundColor: secondaryTextColor,
+                    progressColor: primaryColor,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    CPs2[index].target.toString(),
+                    style: blueTextStyle.copyWith(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            )
+            
+          ],),
+              ),
+        );
       }
     );
   }
@@ -133,7 +141,8 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, 
-          MaterialPageRoute(builder: (context) => DetailProductPage(idcampaign: 2))
+          MaterialPageRoute(
+            builder: (context) => DetailProductPage(idcampaign: indexContext))
         );
       },
       child: Container(

@@ -6,6 +6,8 @@ class Campaign{
   String extension_campaign;
   final int campaign_owner;
   int isurgent;
+  final List? categories;
+  final List? donasis;
 
   Campaign({
     required this.idcampaign,
@@ -14,7 +16,9 @@ class Campaign{
     required this.desc,
     required this.extension_campaign,
     required this.campaign_owner,
-    required this.isurgent
+    required this.isurgent,
+    required this.categories,
+    required this.donasis,
   });
 
   factory Campaign.fromJson(Map<String, dynamic> json){
@@ -26,6 +30,8 @@ class Campaign{
       extension_campaign: json['extension_campaign'],
       campaign_owner: json['campaign_owner'],
       isurgent: json['isurgent'],
+      categories: json['categories'],
+      donasis: json['donasis'],
     );
   }
 
