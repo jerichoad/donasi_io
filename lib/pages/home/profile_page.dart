@@ -1,10 +1,63 @@
+import 'dart:convert';
+
+import 'package:donasi_io/class/account.dart';
 import 'package:donasi_io/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatelessWidget {
+
+  Account? ac;
+  TextEditingController txtnama = new TextEditingController();
+  TextEditingController txtemail = new TextEditingController();
+
+  Future<String> fetchData() async {
+    final response = await http.get(
+      Uri.parse("http://ubaya.fun/flutter/160418108/readprofile.php"),);
+    if (response.statusCode == 200) {
+    return response.body;
+    } else {
+    throw Exception('Failed to read API');
+    }
+  }
+
+  
+
+
   @override
   Widget build(BuildContext context) {
+
+    bacaData() {
+    fetchData().then((value) {
+      Map json = jsonDecode(value);
+      ac = Account.fromJson(json['data']);
+      /*setState(() {
+        txtnama.text = ac!.nama;
+        txtemail.text = ac!.email;
+      });*/
+    });
+  }
+
+  void submit() async {
+    final response = await http.post(
+        Uri.parse("http://ubaya.fun/flutter/160418108/updateprofile.php"),
+        body: {
+          'nama': ac!.nama,
+          'email': ac!.email,
+        });
+    if (response.statusCode == 200) {
+      print(response.body);
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
+      }
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+
     Widget header(){
       return AppBar(
         automaticallyImplyLeading: false,
