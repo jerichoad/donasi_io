@@ -63,8 +63,6 @@ class HistoryPage extends StatelessWidget {
             ),
             children: [
               HistoryCard(),
-              HistoryCard(),
-              HistoryCard(),
             ],
           ),
         ),

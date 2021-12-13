@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:donasi_io/theme.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 
 class AddCampaign extends StatefulWidget {
@@ -15,8 +18,30 @@ class _AddCampaignState extends State<AddCampaign> {
 
   //File? imageProses;
 
+  String namacampaign = "";
+  int target = 0;
+  String desc = "";
+
   @override
   Widget build(BuildContext context) {
+
+    void submit() async {
+      final response = await http
+          .post(Uri.parse("http://ubaya.fun/flutter/160418108/createcampaign.php"), body: jsonEncode({
+        'namacampaign': namacampaign,
+        'target': target,
+        'desc': desc,
+      }));
+      if (response.statusCode == 200) {
+        Map json = jsonDecode(response.body);
+        if (json['result'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
+        }
+      } else {
+        throw Exception('Failed to read API');
+      }
+    }
 
     Widget header(){
       return AppBar(
@@ -113,40 +138,6 @@ class _AddCampaignState extends State<AddCampaign> {
     );
   }*/
 
-    Widget footer(){
-      //NOTE: BUTTONS
-      return Container(
-        width: double.infinity,
-        margin: EdgeInsets.all(30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                height: 54,
-                child: TextButton(
-                  onPressed: (){},
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: primaryColor
-                  ),
-                  child: Text(
-                    "Create Donation",
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semibold,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
-
     Widget nameInput(){
       return Container(
         margin: EdgeInsets.only(
@@ -172,6 +163,16 @@ class _AddCampaignState extends State<AddCampaign> {
                   )
                 )
               ),
+              onChanged: (value){
+                namacampaign = value;
+                print("Nama Campaign: " + namacampaign);
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'can not be empty';
+                }
+                return null;
+              },
             )
           ],
         ),
@@ -203,6 +204,55 @@ class _AddCampaignState extends State<AddCampaign> {
                   )
                 )
               ),
+              onChanged: (value){
+                target = int.parse(value);
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'can not be empty';
+                }
+                return null;
+              },
+            )
+          ],
+        ),
+      );
+    }
+
+    Widget deskripsi(){
+      return Container(
+        margin: EdgeInsets.only(
+          top: 30,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Short Description',
+              style: secondaryTextStyle.copyWith(
+                fontSize: 13,
+              ),
+            ),
+            TextFormField(
+              style: primaryTextStyle,
+              decoration: InputDecoration(
+                hintText: 'Description',
+                hintStyle: primaryTextStyle,
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: primaryColor,
+                  )
+                )
+              ),
+              onChanged: (value){
+                desc = value;
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'can not be empty';
+                }
+                return null;
+              },
             )
           ],
         ),
@@ -248,6 +298,43 @@ class _AddCampaignState extends State<AddCampaign> {
       );
     }*/
 
+    Widget footer(){
+      //NOTE: BUTTONS
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                height: 54,
+                child: TextButton(
+                  onPressed: (){
+                    submit();
+                    print("SUBMITED");
+                  },
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: primaryColor
+                  ),
+                  child: Text(
+                    "Create Donation",
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semibold,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,6 +349,7 @@ class _AddCampaignState extends State<AddCampaign> {
               children: [
                 nameInput(),
                 targetInput(),
+                deskripsi(),
                 //dropdownCategory(),
               ],
             ),

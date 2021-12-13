@@ -51,9 +51,6 @@ class _SignInPageState extends State<SignInPage> {
 
 
   void doLogin() async {    
-    /*final response = await http.post(
-        Uri.parse("http://ubaya.fun/flutter/160418108/campaign/login.php"),
-        body: {'user_id': _user_id, 'user_password': _user_password});*/
     final response = await http
       .post(Uri.parse("http://ubaya.fun/flutter/160418108/campaign/login.php"),
       body: {'user_id': _user_id, 'user_password': _user_password});
@@ -65,7 +62,7 @@ class _SignInPageState extends State<SignInPage> {
         prefs.setString("user_id", _user_id);
         prefs.setString("user_name", json['nama']);
         //print(_user_id);
-        //main();
+        MainPage();
       } else {
         setState(() {
           error_login = "User id atau password error";
@@ -220,8 +217,8 @@ class _SignInPageState extends State<SignInPage> {
         child: TextButton(
           onPressed: () async {
             //prefs.setString("user_id", _user_id);
-            doLogin();
-            //Navigator.pushNamed(context, '/home');
+            //doLogin();
+            Navigator.pushNamed(context, '/home');
 
             final prefs = await SharedPreferences.getInstance();
             prefs.setString("user_id", _user_id);

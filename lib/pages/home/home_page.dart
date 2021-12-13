@@ -6,18 +6,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../sign_in_page.dart';
 
 
-class HomePage extends StatelessWidget {
-
-  Future<String> checkUser() async {
-    final prefs = await SharedPreferences.getInstance();
-    String user_id = prefs.getString("user_id") ?? '';
-    return user_id;
-  }
-
-  
+class HomePage extends StatelessWidget { 
 
   @override
   Widget build(BuildContext context) {
+
+    Future<String> checkUser() async {
+      final prefs = await SharedPreferences.getInstance();
+      String user_id = prefs.getString("user_id") ?? '';
+      return user_id;
+    }
+
+    getPref(String key) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String auth = prefs.getString(key) ?? '';
+    }
     
     Widget header(){
       return Container(
@@ -36,7 +39,7 @@ class HomePage extends StatelessWidget {
                   style: primaryTextStyle.copyWith(
                     fontSize: 24, fontWeight: semibold,
                   ),),
-                  Text("USER",
+                  Text("JerichoA",
                   style: secondaryTextStyle.copyWith(
                     fontSize: 14, 
                   ),),

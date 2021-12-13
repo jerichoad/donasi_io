@@ -446,6 +446,109 @@ class _DetailProductPageState extends State<DetailProductPage> {
       );  
     }
 
+    
+
+    Widget footer(){
+      //NOTE: BUTTONS
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.all(30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Container(
+                height: 54,
+                child: TextButton(
+                  onPressed: (){
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          padding: EdgeInsets.all(16),
+                          width: double.infinity,
+                          margin: EdgeInsets.only(
+                            top: 5,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(24),
+                            ),
+                            color: Colors.white,
+                          ),
+                          height: 300,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text('Jumlah Donasi'),
+                                SizedBox(height: 20,),
+                                TextFormField(
+                                  style: primaryTextStyle,
+                                  decoration: InputDecoration(
+                                    hintText: 'Masukkan Angka',
+                                    hintStyle: primaryTextStyle,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                      )
+                                    )
+                                  ),
+                                ),
+
+                                TextFormField(
+                                  style: primaryTextStyle,
+                                  decoration: InputDecoration(
+                                    hintText: 'Komentar',
+                                    hintStyle: primaryTextStyle,
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: primaryColor,
+                                      )
+                                    )
+                                  ),
+                                ),
+
+
+                                SizedBox(height: 20,),
+                                ElevatedButton(
+                                  child: const Text('Donate'),
+                                  onPressed: () {
+                                    //donasi
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    backgroundColor: primaryColor
+                  ),
+                  child: Text(
+                    "Donasi Sekarang",
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semibold,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    }
+
+
+  @override
+  Widget build(BuildContext context) {
     Widget tampilData(){
       bacaData();
       if(cm!=null){
@@ -649,107 +752,6 @@ class _DetailProductPageState extends State<DetailProductPage> {
       }
     }
 
-    Widget footer(){
-      //NOTE: BUTTONS
-      return Container(
-        width: double.infinity,
-        margin: EdgeInsets.all(30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Container(
-                height: 54,
-                child: TextButton(
-                  onPressed: (){
-                    showModalBottomSheet<void>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                          padding: EdgeInsets.all(16),
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
-                            top: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(24),
-                            ),
-                            color: Colors.white,
-                          ),
-                          height: 300,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Text('Jumlah Donasi'),
-                                SizedBox(height: 20,),
-                                TextFormField(
-                                  style: primaryTextStyle,
-                                  decoration: InputDecoration(
-                                    hintText: 'Masukkan Angka',
-                                    hintStyle: primaryTextStyle,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: primaryColor,
-                                      )
-                                    )
-                                  ),
-                                ),
-
-                                TextFormField(
-                                  style: primaryTextStyle,
-                                  decoration: InputDecoration(
-                                    hintText: 'Komentar',
-                                    hintStyle: primaryTextStyle,
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: primaryColor,
-                                      )
-                                    )
-                                  ),
-                                ),
-
-
-                                SizedBox(height: 20,),
-                                ElevatedButton(
-                                  child: const Text('Donate'),
-                                  onPressed: () {
-                                    //donasi
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: primaryColor
-                  ),
-                  child: Text(
-                    "Donasi Sekarang",
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: semibold,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      );
-    }
-
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

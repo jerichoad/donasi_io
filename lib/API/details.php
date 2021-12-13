@@ -27,7 +27,7 @@ if ($result->num_rows > 0) {
   $arr=["result"=>"success","data"=>$data];*/
   $r=mysqli_fetch_assoc($result);
 
-    $sql2 = "SELECT namacat FROM category inner join genrecampaign
+    $sql2 = "SELECT category.namacat FROM category inner join genrecampaign
         on category.idcategory=genrecampaign.category_idcategory
         where campaign_idcampaign=$idcampaign";
     $stmt2 = $conn->prepare($sql2);
