@@ -1,9 +1,83 @@
+import 'dart:convert';
+
+import 'package:donasi_io/pages/splash_page.dart';
 import 'package:donasi_io/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class SignInPage extends StatelessWidget {
+import '../main.dart';
+import 'home/main_page.dart';
+
+late String active_user = "";
+
+Future<String> checkUser() async {
+  final prefs = await SharedPreferences.getInstance();
+  String user_id = prefs.getString("user_id") ?? '';
+  return user_id;
+}
+
+class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
+
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+
+  late String _user_id;
+  late String _user_password;
+  late String error_login;
+
+  Future<String> checkUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    String user_id = prefs.getString("user_id") ?? '';
+    return user_id;
+  }
+
+  void launch(){
+    WidgetsFlutterBinding.ensureInitialized();
+  checkUser().then((String result) {  
+    if (result == '')
+      runApp(SignInPage());
+    else {
+      active_user = result;
+      runApp(MainPage());
+    }
+  });
+  }
+
+
+  void doLogin() async {    
+    /*final response = await http.post(
+        Uri.parse("http://ubaya.fun/flutter/160418108/campaign/login.php"),
+        body: {'user_id': _user_id, 'user_password': _user_password});*/
+    final response = await http
+      .post(Uri.parse("http://ubaya.fun/flutter/160418108/campaign/login.php"),
+      body: {'user_id': _user_id, 'user_password': _user_password});
+
+    if (response.statusCode == 200) {
+      Map json = jsonDecode(response.body);
+      if (json['result'] == 'success') {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString("user_id", _user_id);
+        prefs.setString("user_name", json['nama']);
+        //print(_user_id);
+        //main();
+      } else {
+        setState(() {
+          error_login = "User id atau password error";
+          print(error_login);
+        });
+      }
+    } else {
+      throw Exception('Failed to read API');
+    }
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +115,7 @@ class SignInPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Email Address",
+              "Username",
               style: primaryTextStyle.copyWith(
                 fontSize: 16,
                 fontWeight: medium,
@@ -68,9 +142,13 @@ class SignInPage extends StatelessWidget {
                       child: TextFormField(
                         style: primaryTextStyle,
                         decoration: InputDecoration.collapsed(
-                          hintText: "Your Email Address",
+                          hintText: "Username",
                           hintStyle: secondaryTextStyle
                         ),
+                        onChanged: (v){
+                          _user_id = v;
+                          print(_user_id);
+                        },
                       )
                     )
                   ],
@@ -120,7 +198,10 @@ class SignInPage extends StatelessWidget {
                           hintText: "Your Password",
                           hintStyle: secondaryTextStyle
                         ),
-                      )
+                        onChanged: (v){
+                          _user_password = v;
+                        },
+                      ),
                     )
                   ],
                 ),
@@ -137,8 +218,16 @@ class SignInPage extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.only(top: 30),
         child: TextButton(
-          onPressed: (){
-            Navigator.pushNamed(context, '/home');
+          onPressed: () async {
+            //prefs.setString("user_id", _user_id);
+            doLogin();
+            //Navigator.pushNamed(context, '/home');
+
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString("user_id", _user_id);
+
+            print("USER YANG TERDAFTAR ADALAH");
+            print(await prefs.getString('user_id'));
           },
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,

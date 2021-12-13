@@ -123,28 +123,110 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget DaftarCampaign2(data){
+    List<Campaign> CPs2 = [];
+    Map json = jsonDecode(data);
+    for (var cam in json['data']){
+      Campaign cmp = Campaign.fromJson(cam);
+      CPs2.add(cmp);
+    }
+    
+    return ListView.builder(
+      itemCount: CPs2.length,
+      itemBuilder: (BuildContext ctxt, int index){
+        return GestureDetector(
+          onTap: (){
+            Navigator.push(context, 
+              MaterialPageRoute(builder: (context) => DetailProductPage(idcampaign: CPs2[index].idcampaign))
+            );
+          },
+          child: new Container(
+          margin: EdgeInsets.only(
+              left: defaultMargin,
+              right: defaultMargin,
+              bottom: defaultMargin,
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    'http://ubaya.fun/flutter/160418108/campaign/image/' + CPs2[index].idcampaign.toString() + ".jpg",
+                    width: 120,
+                    height: 120,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(
+                  width: 12,
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Category",
+                        style: secondaryTextStyle.copyWith(
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        CPs2[index].namacampaign,
+                        style: primaryTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: semibold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      LinearPercentIndicator(
+                        width: 175,
+                        lineHeight: 10.0,
+                        percent: 1 - (0.2),
+                        backgroundColor: secondaryTextColor,
+                        progressColor: primaryColor,
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Text(
+                        CPs2[index].target.toString(),
+                        style: blueTextStyle.copyWith(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  )
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
     //print(CPs[0].namacampaign);
     return Container(
         height: MediaQuery.of(context).size.height,
-        child: GestureDetector(
-          onTap: (){
-            Navigator.push(context, 
-              MaterialPageRoute(builder: (context) => DetailProductPage(idcampaign: 1))
-            );
+        child: FutureBuilder(
+          future: fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return DaftarCampaign2(snapshot.data);
+            } else {
+              return Center(
+                child: CircularProgressIndicator()
+              );
+            }
           },
-          child: FutureBuilder(
-            future: fetchData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return DaftarCampaign(snapshot.data);
-              } else {
-                return Center(
-                  child: CircularProgressIndicator()
-                );
-              }
-            },
-            
-          ),
+          
         )
       );
   }

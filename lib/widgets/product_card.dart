@@ -35,7 +35,17 @@ class ProductCard extends StatelessWidget {
     });
   }
 
-  Widget DaftarCampaignUrgent(data){
+  
+
+  @override
+  void initState() {
+    initState();
+    bacaData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget DaftarCampaignUrgent(data){
     List<Campaign> CPs2 = [];
     Map json = jsonDecode(data);
     for (var cam in json['data']){
@@ -50,8 +60,10 @@ class ProductCard extends StatelessWidget {
       itemBuilder: (BuildContext ctxt, int index){
         return GestureDetector(
           onTap: (){
-            indexContext = index;
-            print(indexContext.toString());
+            Navigator.push(context, 
+              MaterialPageRoute(
+                builder: (context) => DetailProductPage(idcampaign: CPs2[index].idcampaign))
+            );
           },
           child: new Container(
           width: 215,
@@ -136,31 +148,21 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, 
-          MaterialPageRoute(
-            builder: (context) => DetailProductPage(idcampaign: indexContext))
-        );
-      },
-      child: Container(
-          height: 310,
-          child: FutureBuilder(
-            future: fetchData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return DaftarCampaignUrgent(snapshot.data);
-              } else {
-                return Center(
-                  child: CircularProgressIndicator()
-                );
-              }
-            },
-            
-          )
-        ),
-    );
+    return Container(
+        height: 310,
+        child: FutureBuilder(
+          future: fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return DaftarCampaignUrgent(snapshot.data);
+            } else {
+              return Center(
+                child: CircularProgressIndicator()
+              );
+            }
+          },
+          
+        )
+      );
   }
 }

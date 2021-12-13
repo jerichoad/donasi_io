@@ -2,9 +2,19 @@ import 'package:donasi_io/theme.dart';
 import 'package:donasi_io/widgets/product_card.dart';
 import 'package:donasi_io/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../sign_in_page.dart';
 
 
 class HomePage extends StatelessWidget {
+
+  Future<String> checkUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    String user_id = prefs.getString("user_id") ?? '';
+    return user_id;
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +32,11 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Halo, User",
+                  Text("Halo,",
                   style: primaryTextStyle.copyWith(
                     fontSize: 24, fontWeight: semibold,
                   ),),
-                  Text("@username",
+                  Text("USER",
                   style: secondaryTextStyle.copyWith(
                     fontSize: 14, 
                   ),),

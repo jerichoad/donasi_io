@@ -15,7 +15,7 @@ class DetailProductPage extends StatefulWidget {
 }
 
 class _DetailProductPageState extends State<DetailProductPage> {
-  late Campaign cm;
+  Campaign? cm;
 
   @override
   void initState() {
@@ -115,7 +115,339 @@ class _DetailProductPageState extends State<DetailProductPage> {
       );
     }
 
+    Widget tampilData2(data){
+      List<Campaign> CPs2 = [];
+      Map json = jsonDecode(data);
+      for (var cam in json['data']){
+        Campaign cmp = Campaign.fromJson(cam);
+        CPs2.add(cmp);
+      }
+
+      return ListView.builder(
+        itemCount: CPs2.length,
+        itemBuilder: (BuildContext ctxt, int index){
+          return new Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(
+          top: 5,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Container(
+              //NOTE: HEADER
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          CPs2[0].namacampaign,
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 18,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          CPs2[0].categories?[index]['namacat'],
+                          style: secondaryTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //NOTE: PRICE
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: 20,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(4)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Target Donasi',
+                    style: whiteTextStyle,
+                  ),
+                  Text(
+                    CPs2[0].target.toString(),
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semibold
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            //NOTE: DESCRIPTION
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Deskripsi',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: bold
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    CPs2[0].desc,
+                    style: secondaryTextStyle.copyWith(
+                      fontWeight: light,
+                    ),
+                    textAlign: TextAlign.justify,
+                  )
+                ],
+              ),
+            ),
+
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Donatour',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: bold
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 20,
+                    ),
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      left: 12,
+                      bottom: 14,
+                      right: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: backgroundColor2,
+                    ),
+                    child: Row(
+                      children: [
+                        /*Text(
+                          cm!.donasis?[index]['nama'],
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          cm!.donasis?[index]['komentar'],
+                          style: blueTextStyle,
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          cm!.donasis![index]['nominal'].toString(),
+                          style: blueTextStyle,
+                        )*/
+                        
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        );
+        },
+      );
+    }
+
+    Widget bacaKategori(){
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(
+          top: 5,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Container(
+              //NOTE: HEADER
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cm!.namacampaign,
+                          style: primaryTextStyle.copyWith(
+                            fontSize: 18,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: cm!.categories?.length,
+                          itemBuilder: (BuildContext ctxt, int index){
+                            return new Text(
+                              cm!.categories?[index]['namacat'],
+                              style: secondaryTextStyle.copyWith(
+                                fontSize: 12,
+                              ),
+                            );
+                          },
+                          
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]
+        )
+      );    
+    }
+
+    Widget bacaJudul(){
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(
+          top: 5,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(24),
+          ),
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+          //NOTE: PRICE
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: 20,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(4)
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Target Donasi',
+                    style: whiteTextStyle,
+                  ),
+                  Text(
+                    cm!.target.toString(),
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semibold
+                    ),
+                  )
+                ],
+              ),
+            ),
+
+            //NOTE: DESCRIPTION
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                top: defaultMargin,
+                left: defaultMargin,
+                right: defaultMargin,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Deskripsi',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: bold
+                    ),
+                  ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  Text(
+                    cm!.desc,
+                    style: secondaryTextStyle.copyWith(
+                      fontWeight: light,
+                    ),
+                    textAlign: TextAlign.justify,
+                  )
+                ],
+              ),
+            ),
+          ]
+        )
+      );  
+    }
+
     Widget tampilData(){
+      bacaData();
       if(cm!=null){
         return Container(
         width: double.infinity,
@@ -144,7 +476,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          cm.namacampaign,
+                          cm!.namacampaign,
                           style: primaryTextStyle.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
@@ -155,10 +487,10 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         ),
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: cm.categories?.length,
+                          itemCount: cm!.categories?.length,
                           itemBuilder: (BuildContext ctxt, int index){
                             return new Text(
-                              cm.categories?[index]['namacat'],
+                              cm!.categories?[index]['namacat'],
                               style: secondaryTextStyle.copyWith(
                                 fontSize: 12,
                               ),
@@ -193,7 +525,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     style: whiteTextStyle,
                   ),
                   Text(
-                    cm.target.toString(),
+                    cm!.target.toString(),
                     style: whiteTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semibold
@@ -224,7 +556,7 @@ class _DetailProductPageState extends State<DetailProductPage> {
                     height: 12,
                   ),
                   Text(
-                    cm.desc,
+                    cm!.desc,
                     style: secondaryTextStyle.copyWith(
                       fontWeight: light,
                     ),
@@ -272,13 +604,13 @@ class _DetailProductPageState extends State<DetailProductPage> {
                         Expanded(
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: cm.donasis?.length,
+                          itemCount: cm!.donasis?.length,
                             itemBuilder: (BuildContext ctxt, int index){
                               return new Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    cm.donasis?[index]['nama'],
+                                    cm!.donasis?[index]['nama'],
                                     style: primaryTextStyle.copyWith(
                                       fontWeight: bold,
                                     ),
@@ -287,14 +619,14 @@ class _DetailProductPageState extends State<DetailProductPage> {
                                     height: 5,
                                   ),
                                   Text(
-                                    cm.donasis?[index]['komentar'],
+                                    cm!.donasis?[index]['komentar'],
                                     style: blueTextStyle,
                                   ),
                                   SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                    cm.donasis![index]['nominal'].toString(),
+                                    cm!.donasis![index]['nominal'].toString(),
                                     style: blueTextStyle,
                                   )
                                 ],

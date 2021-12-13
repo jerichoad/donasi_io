@@ -1,12 +1,43 @@
+import 'dart:convert';
+
 import 'package:donasi_io/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
+
+  final _formKey = GlobalKey<FormState>();
+  String username = "";
+  String nama = "";
+  String email = "";
+  String password = "";
+
+  
 
   @override
   Widget build(BuildContext context) {
+
+    void submit() async {
+      final response = await http
+          .post(Uri.parse("http://ubaya.fun/flutter/160418108/register.php"), body: {
+        'username': username,
+        'nama': nama,
+        'email': email,
+        'password': password,
+      });
+      if (response.statusCode == 200) {
+        Map json = jsonDecode(response.body);
+        if (json['result'] == 'success') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Sukses Menambah Data')));
+        }
+      } else {
+        throw Exception('Failed to read API');
+      }
+    }
 
     Widget header(){
       return Container(
@@ -72,6 +103,15 @@ class SignUpPage extends StatelessWidget {
                           hintText: "Your Name",
                           hintStyle: secondaryTextStyle
                         ),
+                        onChanged: (value){
+                          nama = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'title can not be empty';
+                          }
+                          return null;
+                        },
                       )
                     )
                   ],
@@ -120,6 +160,15 @@ class SignUpPage extends StatelessWidget {
                           hintText: "Your Username",
                           hintStyle: secondaryTextStyle
                         ),
+                        onChanged: (value){
+                          username = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'can not be empty';
+                          }
+                          return null;
+                        },
                       )
                     )
                   ],
@@ -168,6 +217,15 @@ class SignUpPage extends StatelessWidget {
                           hintText: "Your Email Address",
                           hintStyle: secondaryTextStyle
                         ),
+                        onChanged: (value){
+                          email = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'can not be empty';
+                          }
+                          return null;
+                        },
                       )
                     )
                   ],
@@ -217,6 +275,15 @@ class SignUpPage extends StatelessWidget {
                           hintText: "Your Password",
                           hintStyle: secondaryTextStyle
                         ),
+                        onChanged: (value){
+                          password = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'can not be empty';
+                          }
+                          return null;
+                        },
                       )
                     )
                   ],
@@ -234,7 +301,10 @@ class SignUpPage extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.only(top: 30),
         child: TextButton(
-          onPressed: (){
+          onPressed: () async {
+            submit();
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString("user_id", username);
             Navigator.pushNamed(context, '/home');
           },
           style: TextButton.styleFrom(
