@@ -1,6 +1,6 @@
 # donasi_io
 
-A new Flutter project.
+A new Flutter project from Emerging Technology course.
 
 ## Getting Started
 
